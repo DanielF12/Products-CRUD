@@ -1,4 +1,4 @@
-OBS: Tentei fazer a aplicação utilizando Angular 9, mas por conta de dependências do PrimeNG, não funcionavam várias delas, dava o erro de que era incompatível com a versão do Angular, portanto, atualizei o Angular para a 13 e depois para a 14, na 14 funcionou todas as dependências que utilizei para o projeto. Algumas dependência que lembro de não estar funcionando no Angular 9: DropdownModule e CheckboxModule.
+OBS: Tentei fazer a aplicação utilizando Angular 9, mas por conta de dependências do PrimeNG, não funcionavam várias delas, dava o erro de que era incompatível com a versão do Angular, portanto, atualizei o Angular para a 13 e depois para a 14, na 14 funcionou todas as dependências que utilizei para o projeto. Algumas dependências que lembro de não estar funcionando no Angular 9: DropdownModule e CheckboxModule.
 
 # Products CRUD
 
