@@ -1,72 +1,99 @@
-<form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+<div class="container-page shadow-custom">
+  <span class="title ">Cadastro de Itens</span>
+  <p-toast></p-toast>
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="p-grid p-fluid" style="margin-top: 1rem;">
+      <div class="form-items">
+        <div class="p-col-12 p-md-4">
+          <div class="p-inputgroup label-input">
+            <label>Nome*</label>
+            <div style="display: flex; flex-direction: row;">
+              <input type="text" pInputText formControlName="name" placeholder="Nome do item">
+              <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+            </div>
+          </div>
+        </div>
 
-  <div class="p-grid p-fluid">
-    <div class="p-col-12 p-md-4">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-        <input type="text" pInputText formControlName="name" placeholder="Nome do item">
+        <div class="p-col-12 p-md-4">
+          <div class="label-input">
+            <label>Unidade de Medida*</label>
+            <div style="display: flex; flex-direction: row;">
+              <div style="display: flex; min-width:10rem">
+                <p-dropdown [ngStyle]="{'min-width': '14rem'}" [options]="unities" formControlName="unity"
+                  placeholder="Selecione a Unidade" [showClear]="true"></p-dropdown>
+              </div>
+              <span class="p-inputgroup-addon">$</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-col-12 p-md-4">
+          <div class="label-input">
+            <label>Quantidade</label>
+            <div style="display: flex; flex-direction: row;">
+              <input type="number" pInputText formControlName="quantity" placeholder="Quantidade">
+              <span class="p-inputgroup-addon">{{chooseAddon()}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-field-checkbox" style="min-width: 8rem;">
+          <p-checkbox name="reviewed" inputId="reviewed" [(ngModel)]="isPerishableProductValue" [binary]="true"
+            formControlName="isPerishableProduct" (onChange)="onChangeCheckbox(isPerishableProductValue)" #checkElm>
+          </p-checkbox>
+          <span style="margin-left:0.25rem">{{isPerishableProductValue ? 'Perecível' : 'Não Perecível' }}</span>
+        </div>
       </div>
     </div>
+    <div class="form-items">
 
-    <div class="p-col-12 p-md-4">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon">$</span>
-        <input type="text" pInputText placeholder="Unidade de medida">
-        <!-- <p-dropdown [options]="unities" formControlName="unity" placeholder="Selecione a Unidade" optionLabel="unity"
-          [showClear]="true"></p-dropdown> -->
+      <div class="p-col-12">
+        <div class="label-input">
+          <label>Preço*</label>
+          <div style="display: flex; flex-direction: row;">
+            <input currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" type="text" pInputText
+              formControlName="price" placeholder="Preço">
+            <span class="p-inputgroup-addon"><i class="pi pi-money-bill"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <div class="label-input">
+          <div style="display: flex; flex-direction: row;">
+            <label>Data de Validade</label>
+            <span *ngIf="isPerishableProductValue">*</span>
+          </div>
+          <div style="display: flex; flex-direction: row;">
+            <p-calendar [ngStyle]="{'width': '100%'}" inputId="basic" dateFormat="dd/mm/yy"
+              formControlName="expirationDate" placeholder="Data de validade"></p-calendar>
+            <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-col-12 p-md-4">
+        <div class="label-input">
+          <label>Data de Fabricação*</label>
+          <div style="display: flex; flex-direction: row;">
+            <p-calendar inputId="basic" formControlName="fabricationDate" dateFormat="dd/mm/yy"
+              placeholder="Data de fabricação"></p-calendar>
+            <span class="p-inputgroup-addon"><i class="pi pi-calendar"></i></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="buttons-flex">
+      <div class="p-col-12">
+        <button class="p-button-secondary" pButton label="Cancelar" (click)="goToList()"></button>
+      </div>
+      <div class="p-col-12"
+        [pTooltip]="(!productForm.get('expirationDate')?.value && isPerishableProductValue) ? 'Data de Validade precisa ser preenchdia' : isFabricationDateAfter ? 'Data de fabricação superior a de vencimento' : ''">
+        <button type="submit" pButton label="Salvar"
+          [ngStyle]="{'cursor': (!productForm.valid || isFabricationDateAfter || (!productForm.get('expirationDate')?.value && isPerishableProductValue)) ? 'not-allowed' : 'pointer'}"
+          [disabled]="!productForm.valid || isFabricationDateAfter || (!productForm.get('expirationDate')?.value && isPerishableProductValue)"></button>
       </div>
     </div>
-
-    <div class="p-col-12 p-md-4">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon">www</span>
-        <input type="text" pInputText formControlName="quantity" placeholder="Quantidade">
-      </div>
-    </div>
-  </div>
-
-
-  <div class="p-grid">
-    <div class="p-col-12">
-      <div class="p-inputgroup">
-        <span class="p-inputgroup-addon"><i class="pi pi-tags" style="line-height: 1.25;"></i></span>
-        <input type="text" pInputText formControlName="price" placeholder="Preço">
-        <span class="p-inputgroup-addon">R$</span>
-        <span class="p-inputgroup-addon">.00</span>
-      </div>
-    </div>
-  </div>
-  <!--
-  <div class="p-inputgroup">
-    <span class="p-inputgroup-addon">Produto Perecível</span>
-    <p-checkbox [(ngModel)]="isPerishableProduct" inputId="binary" formControlName="isPerishableProduct"></p-checkbox>
-    <label for="binary">{{isPerishableProduct}}</label>
-  </div> -->
-
-  <!-- <div class="p-field-checkbox">
-    <p-checkbox [(ngModel)]="isPerishableProductValue" inputId="binary" (ngModelChange)="onChangeCheckbox($event)" formControlName="isPerishableProduct"></p-checkbox>
-    <label for="binary">{{isPerishableProductValue}}</label>
-  </div> -->
-
-  <div class="p-field-checkbox">
-    <p-checkbox name="reviewed" inputId="reviewed" [(ngModel)]="isPerishableProductValue" [binary]="true" formControlName="isPerishableProduct"
-      (onChange)="onChangeCheckbox(isPerishableProductValue)" #checkElm>
-    </p-checkbox>
-    <span>{{isPerishableProductValue ? 'Sim' : 'Não' }}</span>
-  </div>
-
-
-  <div class="p-inputgroup">
-    <span class="p-inputgroup-addon">Data de validade</span>
-    <p-calendar inputId="basic" formControlName="expirationDate"></p-calendar>
-  </div>
-
-  <div class="p-inputgroup">
-    <span class="p-inputgroup-addon">Data de fabricação</span>
-    <p-calendar inputId="basic" formControlName="fabricationDate"></p-calendar>
-  </div>
-
-  <div class="p-col-12">
-    <button type="submit" pButton label="Enviar"></button>
-  </div>
-</form>
+  </form>
+</div>

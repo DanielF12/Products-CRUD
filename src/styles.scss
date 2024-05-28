@@ -1,6 +1,67 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-family:  sans-serif
+}
+
 .nav {
   padding: 1rem;
   display: flex;
   flex-direction: row;
 }
+
+.p-calendar {
+  width: 100% !important;
+}
+
+.label-input {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.container-page {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.form-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.buttons-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+.shadow-custom {
+  --tw-shadow: 0 0px 3px 0 rgb(0 0 0 / 0.2), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color) !important;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+  padding: 1rem;
+  border-radius: 1rem;
+  }
+
+  @media only screen and (max-width: 724px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .container-page {
+      margin-left: 0.25rem;
+    }
+  }
