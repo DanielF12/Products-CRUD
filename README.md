@@ -1,6 +1,8 @@
-# Project2
+# Products CRUD
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.11.
+
+NVM version used to build: 14.20.1
 
 ## Development server
 
